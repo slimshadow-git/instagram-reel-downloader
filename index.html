@@ -1,67 +1,49 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Instagram Reel Downloader</title>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
-    <style>
-        body {
-            font-family: 'Poppins', sans-serif;
-            margin: 20px;
-            padding: 20px;
-            background-color: #f4f4f4;
-        }
-        h1 {
-            color: #333;
-        }
-        input[type="text"] {
-            width: 300px;
-            padding: 10px;
-            margin-right: 10px;
-            font-family: 'Poppins', sans-serif;
-        }
-        input[type="submit"] {
-            padding: 10px 20px;
-            background-color: #5cb85c;
-            color: white;
-            border: none;
-            cursor: pointer;
-            font-family: 'Poppins', sans-serif;
-        }
-        input[type="submit"]:hover {
-            background-color: #4cae4c;
-        }
-        #download-link {
-            margin-top: 20px;
-        }
-    </style>
-</head>
-<body>
-    <h1>Instagram Reel Downloader</h1>
-    <form id="download-form">
-        <input type="text" id="reel-url" placeholder="Enter Instagram Reel URL" required>
-        <input type="submit" value="Download">
-    </form>
-    <div id="download-link"></div>
+import React, { useState } from 'react';
 
-    <script>
-        document.getElementById('download-form').addEventListener('submit', function(event) {
-            event.preventDefault();
-            const reelUrl = document.getElementById('reel-url').value;
-            fetch(`https://slimshadow-instagram-r-api.hf.space/download/?reel_url=${encodeURIComponent(reelUrl)}`)
-                .then(response => response.json())
-                .then(data => {
-                    if (data.download_link) {
-                        document.getElementById('download-link').innerHTML = `<a href="${data.download_link}" target="_blank">Download Video</a>`;
-                    } else {
-                        document.getElementById('download-link').innerText = 'Error downloading video.';
-                    }
-                })
-                .catch(error => {
-                    document.getElementById('download-link').innerText = 'An error occurred: ' + error.message;
-                });
-        });
-    </script>
-</body>
-</html>
+const App = () => {
+    const [reelUrl, setReelUrl] = useState('');
+    const [downloadLink, setDownloadLink] = useState('');
+
+    const handleSubmit = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await fetch(`https://slimshadow-instagram-r-api.hf.space/download/?reel_url=${encodeURIComponent(reelUrl)}`);
+            const data = await response.json();
+            if (data.download_link) {
+                setDownloadLink(data.download_link);
+            } else {
+                setDownloadLink('Error downloading video.');
+            }
+        } catch (error) {
+            setDownloadLink('An error occurred: ' + error.message);
+        }
+    };
+
+    return (
+        <div style={{ fontFamily: 'Poppins, sans-serif', margin: '20px', padding: '20px', backgroundColor: '#f4f4f4' }}>
+            <h1 style={{ color: '#333' }}>Instagram Reel Downloader</h1>
+            <form onSubmit={handleSubmit}>
+                <input
+                    type="text"
+                    value={reelUrl}
+                    onChange={(e) => setReelUrl(e.target.value)}
+                    placeholder="Enter Instagram Reel URL"
+                    required
+                    style={{ width: '300px', padding: '10px', marginRight: '10px', fontFamily: 'Poppins, sans-serif' }}
+                />
+                <input
+                    type="submit"
+                    value="Download"
+                    style={{ padding: '10px 20px', backgroundColor: '#5cb85c', color: 'white', border: 'none', cursor: 'pointer', fontFamily: 'Poppins, sans-serif' }}
+                />
+            </form>
+            {downloadLink && (
+                <div style={{ marginTop: '20px' }}>
+                    <a href={downloadLink} target="_blank" rel="noopener noreferrer">Download Video</a>
+                </div>
+            )}
+        </div>
+    );
+};
+
+export default App;
