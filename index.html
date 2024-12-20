@@ -13,36 +13,39 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            height: 100vh;
-            background-color: #f4f4f4;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
         }
         .container {
-            background: white;
-            border-radius: 10px;
-            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             padding: 30px;
             max-width: 400px;
             text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.2);
         }
         h1 {
-            color: #333;
+            color: white;
             margin-bottom: 20px;
         }
         input[type="text"] {
             width: 100%;
             padding: 12px;
             margin-bottom: 15px;
-            border: 1px solid #ccc;
+            border: 1px solid rgba(255, 255, 255, 0.6);
             border-radius: 5px;
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
             transition: border-color 0.3s;
         }
         input[type="text"]:focus {
-            border-color: #5cb85c;
+            border-color: #ff758c;
             outline: none;
         }
         input[type="submit"] {
             padding: 12px 20px;
-            background-color: #5cb85c;
+            background-color: #ff758c;
             color: white;
             border: none;
             border-radius: 5px;
@@ -51,28 +54,29 @@
             transition: background-color 0.3s;
         }
         input[type="submit"]:hover {
-            background-color: #4cae4c;
+            background-color: #ff5e77;
         }
         #download-link {
             margin-top: 20px;
             font-size: 16px;
+            color: white;
         }
         #download-link a {
-            color: #007bff;
+            color: #ffe3e8;
             text-decoration: none;
         }
         #download-link a:hover {
             text-decoration: underline;
         }
         .error {
-            color: red;
+            color: #ffdddd;
         }
         .spinner {
             margin: 20px auto;
             width: 40px;
             height: 40px;
-            border: 4px solid #ccc;
-            border-top: 4px solid #5cb85c;
+            border: 4px solid rgba(255, 255, 255, 0.4);
+            border-top: 4px solid white;
             border-radius: 50%;
             animation: spin 1s linear infinite;
         }
