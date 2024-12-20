@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Reel Downloader</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            color: #333;
+        }
+        input[type="text"] {
+            width: 300px;
+            padding: 10px;
+            margin-right: 10px;
+            font-family: 'Poppins', sans-serif;
+        }
+        input[type="submit"] {
+            padding: 10px 20px;
+            background-color: #5cb85c;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-family: 'Poppins', sans-serif;
+        }
+        input[type="submit"]:hover {
+            background-color: #4cae4c;
+        }
+        #download-link {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Instagram Reel Downloader</h1>
+    <form id="download-form">
+        <input type="text" id="reel-url" placeholder="Enter Instagram Reel URL" required>
+        <input type="submit" value="Download">
+    </form>
+    <div id="download-link"></div>
+
+    <script>
+        document.getElementById('download-form').addEventListener('submit', function(event) {
+            event.preventDefault();
+            const reelUrl = document.getElementById('reel-url').value;
+            fetch(`https://slimshadow-instagram-r-api.hf.space/download/?reel_url=${encodeURIComponent(reelUrl)}`)
+                .then(response => response.json())
+                .then(data => {
+                    if (data.download_link) {
+                        document.getElementById('download-link').innerHTML = `<a href="${data.download_link}" target="_blank">Download Video</a>`;
+                    } else {
+                        document.getElementById('download-link').innerText = 'Error downloading video.';
+                    }
+                })
+                .catch(error => {
+                    document.getElementById('download-link').innerText = 'An error occurred: ' + error.message;
+                });
+        });
+    </script>
+</body>
+</html>
