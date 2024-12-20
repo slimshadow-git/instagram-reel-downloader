@@ -8,119 +8,58 @@
     <style>
         body {
             font-family: 'Poppins', sans-serif;
-            margin: 0;
-            padding: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            background-color: #121212;
-            color: #ffffff;
-        }
-        .container {
-            padding: 30px;
-            max-width: 400px;
-            width: 90%;
-            text-align: center;
-            background: #1e1e1e;
-            border: 1px solid #333;
-            border-radius: 10px;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.6);
+            margin: 20px;
+            padding: 20px;
+            background-color: #f4f4f4;
         }
         h1 {
-            color: #ff4757;
-            margin-bottom: 20px;
+            color: #333;
         }
         input[type="text"] {
-            width: 100%;
-            padding: 12px;
-            margin-bottom: 15px;
-            border: 1px solid #444;
-            border-radius: 5px;
-            background: #2b2b2b;
-            color: #ffffff;
-            transition: border-color 0.3s;
-        }
-        input[type="text"]:focus {
-            border-color: #ff4757;
-            outline: none;
+            width: 300px;
+            padding: 10px;
+            margin-right: 10px;
+            font-family: 'Poppins', sans-serif;
         }
         input[type="submit"] {
-            padding: 12px 20px;
-            background-color: #ff4757;
+            padding: 10px 20px;
+            background-color: #5cb85c;
             color: white;
             border: none;
-            border-radius: 5px;
             cursor: pointer;
-            font-size: 16px;
-            transition: background-color 0.3s;
+            font-family: 'Poppins', sans-serif;
         }
         input[type="submit"]:hover {
-            background-color: #e63946;
+            background-color: #4cae4c;
         }
         #download-link {
             margin-top: 20px;
-            font-size: 16px;
-        }
-        #download-link a {
-            color: #1fa2ff;
-            text-decoration: none;
-        }
-        #download-link a:hover {
-            text-decoration: underline;
-        }
-        .error {
-            color: #ff6b6b;
-        }
-        .spinner {
-            margin: 20px auto;
-            width: 40px;
-            height: 40px;
-            border: 4px solid rgba(255, 255, 255, 0.2);
-            border-top: 4px solid #ffffff;
-            border-radius: 50%;
-            animation: spin 1s linear infinite;
-        }
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
         }
     </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Instagram Reel Downloader</h1>
-        <form id="download-form">
-            <input type="text" id="reel-url" placeholder="Enter Instagram Reel URL" required>
-            <input type="submit" value="Download">
-        </form>
-        <div id="loading" class="spinner" style="display: none;"></div>
-        <div id="download-link"></div>
-    </div>
+    <h1>Instagram Reel Downloader</h1>
+    <form id="download-form">
+        <input type="text" id="reel-url" placeholder="Enter Instagram Reel URL" required>
+        <input type="submit" value="Download">
+    </form>
+    <div id="download-link"></div>
 
     <script>
         document.getElementById('download-form').addEventListener('submit', function(event) {
             event.preventDefault();
             const reelUrl = document.getElementById('reel-url').value;
-            const loadingSpinner = document.getElementById('loading');
-            const downloadLink = document.getElementById('download-link');
-
-            downloadLink.innerHTML = '';
-            loadingSpinner.style.display = 'block';
-
             fetch(`https://slimshadow-instagram-r-api.hf.space/download/?reel_url=${encodeURIComponent(reelUrl)}`)
                 .then(response => response.json())
                 .then(data => {
-                    loadingSpinner.style.display = 'none';
                     if (data.download_link) {
-                        downloadLink.innerHTML = `<a href="${data.download_link}" target="_blank">Download Video</a>`;
+                        document.getElementById('download-link').innerHTML = `<a href="${data.download_link}" target="_blank">Download Video</a>`;
                     } else {
-                        downloadLink.innerHTML = '<div class="error">Error downloading video.</div>';
+                        document.getElementById('download-link').innerText = 'Error downloading video.';
                     }
                 })
                 .catch(error => {
-                    loadingSpinner.style.display = 'none';
-                    downloadLink.innerHTML = `<div class="error">An error occurred: ${error.message}</div>`;
+                    document.getElementById('download-link').innerText = 'An error occurred: ' + error.message;
                 });
         });
     </script>
